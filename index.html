@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>My Only One | Valentine 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff4d6d;
+      --secondary: #c9184a;
+      --dark: #590d22;
+      --soft: #ffb3c1;
+      --glass: rgba(255, 255, 255, 0.08);
+      --glass-heavy: rgba(255, 255, 255, 0.12);
+      --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    
+    body, html { 
+      margin: 0; padding: 0; width: 100%; min-height: 100%; 
+      font-family: 'Inter', sans-serif; 
+      background: #000; 
+      background: radial-gradient(circle at top right, #590d22 0%, #000 100%);
+      color: #fff; overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* --- Auth Screen --- */
+    #lock-screen {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #000; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1); padding: 20px;
+    }
+    .lock-box {
+      background: var(--glass); padding: 40px 25px; border-radius: 24px;
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-heavy);
+      width: 100%; max-width: 350px;
+      box-shadow: var(--card-shadow);
+    }
+    input[type="text"] {
+      background: transparent; border: none; border-bottom: 2px solid var(--primary);
+      color: white; font-size: 1.1rem; text-align: center; outline: none; padding: 12px;
+      width: 90%; font-family: 'Playfair Display', serif; margin-bottom: 10px;
+    }
+    .btn-unlock {
+      margin-top: 25px; padding: 14px 40px; border-radius: 50px;
+      background: linear-gradient(45deg, var(--secondary), var(--primary));
+      border: none; color: white; cursor: pointer;
+      font-weight: 600; letter-spacing: 1px; font-size: 1rem;
+    }
+
+    /* --- Main Layout --- */
+    #main-content { display: none; opacity: 0; transition: opacity 2s ease; }
+    
+    .hero {
+      height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center; padding: 20px;
+    }
+    h1 { 
+      font-family: 'Dancing Script', cursive; 
+      font-size: clamp(3.5rem, 12vw, 6rem); 
+      margin: 10px 0; color: var(--soft); 
+      text-shadow: 0 0 20px rgba(255, 77, 109, 0.5); 
+    }
+    .scroll-down { 
+        position: absolute; bottom: 40px; 
+        animation: bounce 2s infinite; 
+        font-size: 0.75rem; opacity: 0.7; letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    /* --- Multi-Card Letter Section --- */
+    .letter-stack {
+        padding: 40px 15px;
+        display: flex; flex-direction: column;
+        gap: 40px; align-items: center;
+    }
+    .apology-card {
+        background: var(--glass);
+        border-radius: 24px;
+        padding: 35px 25px;
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-heavy);
+        width: 100%; max-width: 500px;
+        position: relative;
+        box-shadow: var(--card-shadow);
+    }
+    .apology-card:nth-child(even) { transform: rotate(1.5deg); border-left: 3px solid var(--primary); }
+    .apology-card:nth-child(odd) { transform: rotate(-1.5deg); border-right: 3px solid var(--primary); }
+    
+    .apology-card h2 { margin-top: 0; color: var(--soft); font-size: 1.8rem; }
+    
+    /* Updated Card Font Style */
+    .apology-card p { 
+      line-height: 1.8; 
+      color: rgba(255,255,255,0.9); 
+      font-size: 1.1rem;
+      font-family: 'Lora', serif; /* Elegant, poetic font */
+    }
+
+    /* --- Media Sections --- */
+    section { padding: 60px 20px; max-width: 900px; margin: 0 auto; }
+    
+    /* Refined Image Size */
+    .gallery-grid {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .gallery-item {
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--glass-heavy); 
+      box-shadow: var(--card-shadow);
+      width: 100%;
+      max-width: 300px; /* Reduced image size */
+    }
+    .gallery-item img { width: 100%; height: auto; display: block; }
+
+    /* Refined Video Size */
+    .video-grid {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        margin-top: 30px;
+    }
+    .video-item {
+        border-radius: 20px; overflow: hidden;
+        border: 1px solid var(--glass-heavy); background: #111;
+        box-shadow: var(--card-shadow);
+        width: 100%;
+        max-width: 320px; /* Smaller, more elegant video size */
+    }
+    .video-item video { width: 100%; display: block; border-radius: 18px; }
+
+    /* --- Modern Audio Player --- */
+    .audio-wrap {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      z-index: 1000; background: rgba(0, 0, 0, 0.6); padding: 8px 18px;
+      border-radius: 100px; display: flex; align-items: center;
+      backdrop-filter: blur(15px); border: 1px solid var(--glass-heavy);
+    }
+
+    /* --- Animations --- */
+    .heart { position: fixed; color: var(--primary); font-size: 20px; pointer-events: none; z-index: 1; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+    @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 3.8rem; }
+      .apology-card { padding: 25px 20px; }
+      section h2 { font-size: 1.1rem !important; line-height: 1.6; }
+      .gallery-item, .video-item { max-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="lock-screen">
+    <div class="lock-box">
+      <h2 style="color:white; margin-top:0; font-family: 'Playfair Display';">Secret Access</h2>
+      <p style="color: var(--soft); font-size: 0.9rem; margin-bottom: 20px;">What I feel for you...</p>
+      <input type="text" id="passkey" placeholder="..."> <br>
+      <button class="btn-unlock" onclick="unlock()">Open My Heart</button>
+    </div>
+  </div>
+
+  <div id="main-content">
+    <div class="audio-wrap">
+        <span style="font-size:12px; font-weight:500; white-space:nowrap; margin-right:15px; color: var(--soft);">♫ Feel the Love</span>
+        <audio id="bg-music" loop>
+            <source src="Kahuti_ft_Kinoti-Feel_The_Love(256k).mp3" type="audio/mpeg">
+        </audio>
+        <button onclick="toggleMusic()" id="music-btn" style="background:var(--primary); border:none; color:white; cursor:pointer; width:35px; height:35px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size: 12px;">▶</button>
+    </div>
+
+    <div class="hero">
+      <p style="letter-spacing: 4px; text-transform: uppercase; font-size: 0.75rem; color: var(--soft); margin-bottom: 0;">I am sorry, Cutie</p>
+      <h1>Cutie</h1>
+      <p style="font-style: italic; margin-top: 15px; font-size: 1rem; opacity: 0.8; max-width: 300px; line-height: 1.6;">"I messed up, I take 100% responsibility, but still crushing on you since the first moment I knew you."</p>
+      <div class="scroll-down">Scroll Down ❤️</div>
+    </div>
+
+    <section class="letter-stack">
+      <div class="apology-card">
+        <h2 style="font-family: 'Dancing Script';">Happy Valentine</h2>
+        <p>Today is about appreciating people who matter, and you're definitelly one of them,
+          thank you for being you through everything i'm greatful for bond we share though i messed up as things are not as they were
+          , i care much kukuhusu and  i always wishing you happiness and good things for you always.
+        </p>
+      </div>
+
+      <div class="apology-card">
+        <h2 style="font-family: 'Dancing Script';">You Are The Only One</h2>
+        <p>You are one of purest soul i have ever know inside and out,
+          and  i know i cannot have you today, then i will pray for you tomorrow,
+          and i will keep praying until there are no more tomorrows left .</p>
+      </div>
+
+      <div class="apology-card">
+        <h2 style="font-family: 'Dancing Script';"> For You</h2>
+        <p>in another lifetime <br>
+          i hope i get the chance to love you right <br>
+          to show you everyday how much you mean to me <br>
+          without any doubts or fears <br>
+          just pure love and happiness <br>
+          without it hurting your heart <br>
+          i hope that in another lifetime <br>
+          i get to be the one who makes you smile <br>
+          the one who holds your hand through everything <br>
+          and the one who loves you unconditionally <br>
+          because you deserve nothing less <br> 
+          i really hope<br>
+          that as earth turns around everyday<br>
+          you find it in your heart to forgive me <br>
+          and give us another chance <br>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="text-align: center; font-family: 'Inter'; font-weight: 300; font-size: 1.3rem; opacity: 0.9;">
+        Most of time i think of you i know we have not made any memomory together, hua naishia tuu kuview
+        kidogo ambacho ni accessible kwangu but still nakuona kila mda as you never stop crossing my mind.
+      </h2>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="Screenshot_20260201-095802_Instagram.jpg" alt="Memory" ></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="text-align: center; font-family: 'Inter'; font-weight: 300; font-size: 1.3rem; opacity: 0.9; margin-bottom: 30px;">
+        i have repeated over 1000 toka nianze kuangalia
+      </h2>
+      <div class="video-grid">
+        <div class="video-item">
+            <video controls preload="metadata">
+                <source src="AllVideo_01769928770552.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="video-item">
+            <video controls preload="metadata">
+                <source src="AllVideo_01769928997013.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="video-item">
+            <video controls preload="metadata">
+                <source src="AllVideo_01769928699136.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </section>
+
+    <footer style="text-align: center; padding: 100px 20px 60px; opacity: 0.5; font-size: 0.75rem; letter-spacing: 1px;">
+      &copy;  To say that i will stop think of you is like running from my  own shadow.
+    </footer>
+  </div>
+
+  <script>
+    function unlock() {
+      const pass = document.getElementById('passkey').value.toLowerCase().trim();
+      if(pass === "endless love") {
+        const lock = document.getElementById('lock-screen');
+        lock.style.opacity = '0';
+        lock.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+          lock.style.display = 'none';
+          const main = document.getElementById('main-content');
+          main.style.display = 'block';
+          setTimeout(() => {
+            main.style.opacity = '1';
+            startHearts();
+          }, 100);
+        }, 1100);
+      } else {
+        alert("Enter the secret code: endless love");
+      }
+    }
+
+    function toggleMusic() {
+      const audio = document.getElementById('bg-music');
+      const btn = document.getElementById('music-btn');
+      if (audio.paused) {
+        audio.play().catch(e => console.log("Audio play blocked"));
+        btn.innerHTML = "⏸";
+      } else {
+        audio.pause();
+        btn.innerHTML = "▶";
+      }
+    }
+
+    function startHearts() {
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.innerHTML = "❤️";
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 10 + 15) + "px";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        heart.style.opacity = Math.random();
+        document.body.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 6000);
+      }, 600);
+    }
+  </script>
+</body>
+</html>
